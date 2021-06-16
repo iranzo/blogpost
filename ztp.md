@@ -4,7 +4,6 @@ Table of contents:
 
 - [Telco 5G Zero Touch Provisioning (ZTP)](#telco-5g-zero-touch-provisioning-ztp)
   - [So… what is ZTP?](#so-what-is-ztp)
-    - [ZTP connected flow](#ztp-connected-flow)
   - [How to deploy ZTP connected?](#how-to-deploy-ztp-connected)
   - [Manifest creation](#manifest-creation)
     - [Hub cluster basic elements creation](#hub-cluster-basic-elements-creation)
@@ -61,7 +60,7 @@ ZTP, as indicated above is the acronym for Zero Touch Provisioning, a project th
 The Hub cluster will use Red Hat Advanced Cluster Management to actually manage and deploy the spoke clusters.
 ZTP, of course, can have two scenarios, connected and disconnected, when the OpenShift Container Platform Worker nodes can directly access the internet or not.
 
-### ZTP connected flow
+Let's check the installation flow:
 
 ![](connected.png)
 
