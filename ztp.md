@@ -4,9 +4,7 @@ Table of contents:
 
 - [Telco 5G Zero Touch Provisioning (ZTP)](#telco-5g-zero-touch-provisioning-ztp)
   - [So… what is ZTP?](#so-what-is-ztp)
-    - [ZTP disconnected flow](#ztp-disconnected-flow)
     - [ZTP connected flow](#ztp-connected-flow)
-    - [Comparison](#comparison)
   - [How to deploy ZTP connected?](#how-to-deploy-ztp-connected)
   - [Manifest creation](#manifest-creation)
     - [Hub cluster basic elements creation](#hub-cluster-basic-elements-creation)
@@ -63,19 +61,11 @@ ZTP, as indicated above is the acronym for Zero Touch Provisioning, a project th
 The Hub cluster will use Red Hat Advanced Cluster Management to actually manage and deploy the spoke clusters.
 ZTP, of course, can have two scenarios, connected and disconnected, when the OpenShift Container Platform Worker nodes can directly access the internet or not.
 
-Let's check a diagram on both scenarios:
-
-### ZTP disconnected flow
-
-![](disconnected.png)
-
 ### ZTP connected flow
 
 ![](connected.png)
 
-### Comparison
-
-As we can see, deploying a disconnected ZTP flow requires setting up some of the prerequisites like creating an internal registry that gets mirrored content from the deployment servers, but doesn't differ that much.
+For comparing, in the case of a disconnected ZTP flow, many prerequisites will be required, like creating an internal registry that gets mirrored content from the deployment servers, etc. We'll be publishing another blog post with a fully disconnected flow.
 
 Let's learn how to deploy ZTP in the next section.
 
