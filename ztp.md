@@ -1,4 +1,4 @@
-# Telco 5G Zero Touch Provisioning (ZTP)
+Table of contents:
 
 <!-- TOC depthfrom:1 orderedlist:false -->
 
@@ -19,8 +19,7 @@
       - [AgentClusterInstall](#agentclusterinstall)
       - [SNO Cluster Definition](#sno-cluster-definition)
       - [Multi-Node Cluster Definition](#multi-node-cluster-definition)
-  - [Deployment](#deployment)
-    - [ClusterDeployment](#clusterdeployment)
+      - [ClusterDeployment](#clusterdeployment)
       - [NMState Config](#nmstate-config)
       - [InfraEnv](#infraenv)
     - [Spoke cluster deployment](#spoke-cluster-deployment)
@@ -29,6 +28,8 @@
   - [Wrap up](#wrap-up)
 
 <!-- /TOC -->
+
+# Telco 5G Zero Touch Provisioning (ZTP)
 
 Telco 5G has become a big effort in current Telco operations and deployments, where, moving from traditional hardware-based equipment to Software-Defined Networking and Appliances has just become the de-facto standard.
 
@@ -116,6 +117,8 @@ spec:
   targetNamespace: hive
 ```
 
+**NOTE**: If this is not the same content as you have already in your `HiveConfig` CR, please ensure that you apply this manifests, if not another CRD called `ClusterDeployment` will fail in future steps.
+
 ## Manifest creation
 
 Here we will see the different manifest creation that we'll be using for
@@ -127,7 +130,7 @@ Even if this creation could be done in an automated way, we want to explore the 
 
 #### ClusterImageSet
 
-This manifest should contain a reachable OpenShift version that will be pulled from Hive and Assisted Installer in order to deploy a Spoke cluster, and this is how looks like:
+This manifest should contain a reachable OpenShift version that will be pulled from Hive and Assisted Installer in order to deploy a Spoke cluster, and this is how it looks like:
 
 ```yaml
 apiVersion: hive.openshift.io/v1
@@ -156,11 +159,11 @@ data:
   LOG_LEVEL: "debug"
 ```
 
-NOTE: We don't recommend using this functionality in production environments and also it's not supported.
+**NOTE**: We don't recommend using this functionality in production environments and also it's not supported.
 
 #### AgentServiceConfig
 
-This is the Operand, the Assisted Service pod that handles the spoke clusters deployments:
+This is the Operand, the Assisted Service pod that handles Spoke cluster deployments:
 
 ```yaml
 apiVersion: agent-install.openshift.io/v1beta1
@@ -242,20 +245,21 @@ In the Manifest creation phase, we still need to define the relevant CR's that w
 
 #### AgentClusterInstall
 
-This is one of the most important elements to define, the first thing is to decide which kind of deployment you need to do. If it's SNO vs Multi-Node is really important here so let's focus in both cases
+This is one of the most important elements to define, the first thing is to decide which kind of deployment you need to do. If it's SNO versus Multi-Node is really important here so let's focus in both cases
 
 #### SNO Cluster Definition
 
 For Single-Node OpenShift we need to specify the next values:
 
-- `spec.provisionRequirements.controlPlaneAgents`: Set to 1, this means that we just want a ControlPlane based on 1 Master node. -`spec.imageSetRef`: This will reference the ClusterImageSet created in previous steps, so ensure that those are related between them using the name.
+- `spec.provisionRequirements.controlPlaneAgents`: Set to `1`, this means that we just want a ControlPlane based on 1 Master node.
+- `spec.imageSetRef`: This will reference the `ClusterImageSet` created in previous steps, so ensure that those are related between them using the name.
 - `spec.clusterDeploymentRef.name`: This represents the name of our ClusterDeployment, which will be created in the next step, so just catch the name and reflect it here.
 - `spec.networking.clusterNetwork` and `spec.networking.serviceNetwork` are references to internal communication, so ensure that there is no overlap between them.
-- `spec.networking.machineNetwork.cidr`: Represents the network range for external communication, so ensure you use the same range as your node will use to communicate with outside.
+- `spec.networking.machineNetwork.cidr`: Represents the network range for external communication, so make sure same range as your node will use to communicate with outside is used.
 
-NOTE: We DON'T need the API and Ingress VIP for this kind of cluster, Assisted Service will figure it out using the `spec.networking.machineNetwork.cidr` element in the CR.
+**NOTE**: We **DON'T** need the API and Ingress VIP for this kind of cluster, Assisted Service will figure it out using the `spec.networking.machineNetwork.cidr` element in the CR.
 
-This is a sample as how should look like on a IPv6 environment
+This is a sample as how it should look like on a IPv6 environment
 
 ```yaml
 apiVersion: extensions.hive.openshift.io/v1beta1
@@ -285,15 +289,15 @@ spec:
 
 For Multi-Node OpenShift we need to specify the next values:
 
-- `spec.provisionRequirements.controlPlaneAgents`: Set to 3, this means that we just want a ControlPlane based on 3 Master nodes.
+- `spec.provisionRequirements.controlPlaneAgents`: Set to `3`, this means that we just want a ControlPlane based on 3 Master nodes.
 - `spec.imageSetRef`: This will reference the ClusterImageSet created in previous steps, so ensure that those are related between them using the name.
 - `spec.clusterDeploymentRef.name`: This represents the name of our ClusterDeployment, will be created in the next step, so just catch the name and reflect it here.
 - `spec.networking.clusterNetwork` and `spec.networking.serviceNetwork` are references to internal communication, so ensure that there is no overlap between them.
 - `spec.apiVIP` and `spec.ingressVIP`: These elements reference the API and Ingress addresses for the OpenShift Spoke cluster, ensuring that they are not the same as your hub cluster.
 
-NOTE: We DON'T need the spec.networking.machineNetwork.cidr for this kind of cluster, Assisted Service will figure it out using the spec.apiVIP and spec.ingressVIP elements in the CR.
+**NOTE**: We **DON'T** need the `spec.networking.machineNetwork.cidr` for this kind of cluster, Assisted Service will figure it out using the `spec.apiVIP` and `spec.ingressVIP` elements in the CR.
 
-This is a sample as how should looks like on a IPv6 environment
+This is a sample as how it should look like on an IPv6 environment
 
 ```yaml
 apiVersion: extensions.hive.openshift.io/v1beta1
@@ -319,13 +323,11 @@ spec:
   sshPublicKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"'
 ```
 
-NOTE: This is also the CR where you will diagnose the issues in the deployment when you trigger it up, more concretely in the field `status.conditions` are all the relevant fields on the deployment status side.
+**NOTE**: This is also the CR where you will diagnose the issues in the deployment when you trigger it up, more concretely in the field `status.conditions` are all the relevant fields on the deployment status side.
 
-## Deployment
+#### ClusterDeployment
 
-### ClusterDeployment
-
-This element represents a Cluster as you used to see on the SaaS UI of Assisted Installer, and it's referenced from the AgentClusterInstall CR that contains the details regarding addressing, name, nodes, etc… Also this CR belongs to Hive API as an extension, it will need to have access to a `FeatureGate` mentioned in a past section called `AlphaAgentInstallStrategy`, so be sure that it's already enabled, if not you can do it using this patch:
+This element represents a Cluster as you used to see on the SaaS UI of Assisted Installer, and it's referenced from the `AgentClusterInstall` CR that contains the details regarding addressing, name, nodes, etc… Also this CR belongs to Hive API as an extension, it will need to have access to a `FeatureGate` mentioned in a past section called `AlphaAgentInstallStrategy`, so be sure that it's already enabled, if not you can do it using this patch:
 
 ```sh
 oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","logLevel":"debug","featureGates":{"custom":{"enabled":["AlphaAgentInstallStrategy"]},"featureSet":"Custom"}}}'
@@ -416,7 +418,7 @@ The most important fields on this CR are the next:
 - `spec.ignitionConfigOverride`: Optional, This is important only if you wanna modify something that you want to include it into the Discovery ISO ignition.
 - `spec.nmStateConfigLabelSelector`: Optional, This will make the relationship between the NMState manifest you had created on the previous step and the InfraEnv that will trigger the ISO creation on the Assisted Service pod.
 
-This is a sample of what it should look like.
+This is a sample of how it should look like:
 
 ```yaml
 apiVersion: agent-install.openshift.io/v1beta1
@@ -482,7 +484,7 @@ And these are the most important fields in the BareMetalHost CRD:
 - `spec.bmc.address`: Redfish address that you need to reach to contact with the node's BMC.
 - `spec.bmc.credentialsName`: The secret's name that contains the access to the BMC.
 
-So, with that let's take a look to a BareMetalHost CR sample
+So, with that let's take a look to a `BareMetalHost` CR sample
 
 ```yaml
 apiVersion: metal3.io/v1alpha1
@@ -508,24 +510,19 @@ spec:
 
 This flow is easier but it's fully manual:
 
-We need to get the ISO URL from the InfraEnv CR with this command:
-
-```sh
-oc get infraenv lab-env -o jsonpath={.status.isoDownloadURL}
-```
-
-- Then download and host it on a HTTPD server.
-- Access to the BMC and try to mount the ISO hosted
-- Boot the node and wait for it to be self-registered against the Assisted Service.
-- Now we need to check the AgentClusterInstall to verify that on the .status.conditions all the requirements are met.
-
-```sh
-oc get agentclusterinstall -o yaml
-```
-
-Edit the agent(s) registered, changing the hostname and approving them.
-
-The deployment will be self-triggered.
+1. We need to get the ISO URL from the InfraEnv CR with this command:
+   ```sh
+   oc get infraenv lab-env -o jsonpath={.status.isoDownloadURL}
+   ```
+1. Then download and host it on a HTTPD server.
+1. Access to the BMC and try to mount the ISO hosted
+1. Boot the node and wait for it to be self-registered against the Assisted Service.
+1. Now we need to check the AgentClusterInstall to verify that on the .status.conditions all the requirements are met.
+   ```sh
+   oc get agentclusterinstall -o yaml
+   ```
+1. Edit the agent(s) registered, changing the hostname and approving them.
+1. The deployment will be self-triggered.
 
 With this, the flow should finish completely, in case it doesn't, there might be some issues on the AgentClusterInstall CR created, so the best way to move forward is to examine the troubleshooting documentation.
 
