@@ -3,7 +3,7 @@ Table of contents:
 <!-- TOC depthfrom:1 orderedlist:false -->
 
 - [Telco 5G Zero Touch Provisioning (ZTP)](#telco-5g-zero-touch-provisioning-ztp)
-  - [So… what is ZTP?](#so-what-is-ztp)
+  - [So... what is ZTP?](#so-what-is-ztp)
   - [How to deploy ZTP connected?](#how-to-deploy-ztp-connected)
   - [Manifest creation](#manifest-creation)
     - [Hub cluster basic elements creation](#hub-cluster-basic-elements-creation)
@@ -28,61 +28,64 @@ Table of contents:
 
 # Telco 5G Zero Touch Provisioning (ZTP)
 
-Telco 5G has become a big effort in current Telco operations and deployments, where, moving from traditional hardware-based equipment to Software-Defined Networking and Appliances has just become the de-facto standard.
+Telco 5G has become a big effort in current Telco operations and deployments, where moving from traditional hardware-based equipment to Software-Defined Networking and Appliances has just become the de-facto standard.
 
 5G is not only about the speed as in bandwidth, but also as the latency, and one of the key areas being pursued this, is getting the network functions closest to the end-user, and, one of the biggest challenges and promises, is that it will become the network for the Internet of Thing (IoT) devices, supporting a broader number of devices via technologies like IPv6, new bands for the radio, as well as smart antennas that will focus the beams towards the devices accessing the network (beamforming).
 
-Nobody said that this could be simple, as it will demand a lot of technology and instead of being datacenter-centric, the higher speed and reduced latency promises, will require to get the services, as said, closest to the consumer.
+Nobody said that this could be simple, as it demands a lot of technology and instead of being datacenter-centric, the promises of higher speed and reduced latency, come with a cost: services should be closes to the customer to satisfy them.
 
-Traditionally, the requirements for applications and services made it feasible to be on a datacenter: redundancy, high-speed network, etc, which is completely opposite to what could be expected on the user end.
+Traditionally, the requirements for applications and services made it feasible to be on a datacenter: redundancy, high-speed network, etc., which is completely opposite to what could be expected on the user end.
 
-For the 5G and Edge scenarios, the reality is the opposite: probably slow or even disconnected from data center environments, which still require similar approaches as the ones used in datacenters.
+For the 5G and Edge scenarios, the reality is the opposite: probably slow or even disconnected from data center environments, which still require similar approaches as the ones used in datacenters, but still having predictable downtimes, management, etc.
 
 Telco 5G also came with some acronyms and terminology:
 
-- SDN: Software-Defined Networking
-- NFV: Network Functions Virtualization
-- RAN: Radio Access Networks
-- PTP: Precision Time Protocol
-- RWN: Remote Worker Nodes
-- SNO: Single Node OpenShift
-- ZTP: Zero Touch Provisioning
-- IPI: Installer-Provisioned Infrastructure
-- UPI: User-Provisioned Infrastructure
 - ACM: Advanced Cluster Management
+- IPI: Installer-Provisioned Infrastructure
+- NFV: Network Functions Virtualization
+- PTP: Precision Time Protocol
+- RAN: Radio Access Networks
+- RWN: Remote Worker Nodes
+- SDN: Software-Defined Networking
+- SNO: Single Node OpenShift
+- UPI: User-Provisioned Infrastructure
+- ZTP: Zero Touch Provisioning
 
 Let's learn about ZTP in the next section.
 
-## So… what is ZTP?
+## So... what is ZTP?
 
-ZTP, as indicated above is the acronym for Zero Touch Provisioning, a project that deploys and delivers OpenShift 4 clusters in an architecture named HUB-Spoke, where a unique Hub cluster is able to manage many Spoke clusters.
+ZTP, as indicated above, is the acronym for Zero Touch Provisioning, a project that deploys and delivers OpenShift 4 clusters in an architecture named HUB-Spoke, where a unique Hub cluster is able to manage many Spoke clusters.
 
-The Hub cluster will use Red Hat Advanced Cluster Management to actually manage and deploy the spoke clusters.
-ZTP, of course, can have two scenarios, connected and disconnected, when the OpenShift Container Platform Worker nodes can directly access the internet or not.
+The Hub cluster will use Red Hat Advanced Cluster Management to manage and deploy the Spoke clusters.
+
+ZTP, of course, can have two scenarios, connected and disconnected, wether the OpenShift Container Platform Worker nodes can directly access the internet or not.
 
 Let's check the installation flow:
 
 ![](connected.png)
 
-For comparing, in the case of a disconnected ZTP flow, many prerequisites will be required, like creating an internal registry that gets mirrored content from the deployment servers, etc. We'll be publishing another blog post with a fully disconnected flow.
+For comparing, in the case of a disconnected ZTP flow, many prerequisites will be required, like creating an internal registry that gets mirrored content from the deployment servers, etc. We'll be publishing another blog post with fully disconnected flow.
 
 Let's learn how to deploy ZTP in the next section.
 
 ## How to deploy ZTP connected?
 
-First, we will need to deploy the Red Hat Advance Cluster Manager Operator version 2.3.0 from the OperatorHub:
+First, we will need to deploy the Red Hat Advance Cluster Manager Operator version `2.3.0` or higher from the OperatorHub:
 
-![](operatorhub.png)
+![Operator Hub visualization](operatorhub.png)
 
-In the window that opens when selecting check the details:
-![](details.png)
+Once we click on ACM, this window will open with the details:
 
-And select the channel release-2.3:
-![](install.png)
+![ACM Details](details.png)
 
-Once the Operator is installed, the prerequisites and ACM deployment items of our deployment flow should be complete.
+There, we select the channel `release-2.3`:
 
-Let's double-check by issuing some commands (ensure KUBECONFIG is loaded):
+![ACM install screen](install.png)
+
+Once the Operator is installed, the prerequisites for deploying ACM will be already fulfilled, so we're ready to configure it.
+
+Let's double-check by issuing some commands (ensure `KUBECONFIG` environment is loaded):
 
 ```sh
 oc get HiveConfig -o yaml
@@ -133,7 +136,7 @@ spec:
 
 #### AssistedServiceConfig
 
-This is an optional ConfigMap that could be used to customize the Assisted Service pod deployment using annotations in the Operand (we will go deep into this topic later).
+This is an optional `ConfigMap` that can be used to customize the Assisted Service pod deployment using annotations in the Operand (we will go deep into this topic later).
 
 ```yaml
 apiVersion: v1
@@ -148,7 +151,7 @@ data:
   LOG_LEVEL: "debug"
 ```
 
-**NOTE**: We don't recommend using this functionality in production environments and also it's not supported.
+**NOTE**: We don't recommend using this functionality in production environments and it's unsupported.
 
 #### AgentServiceConfig
 
@@ -226,15 +229,15 @@ stringData:
   .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
 ```
 
-From here, we will create the manifest that regards the spoke clusters, these above ones are only necessary for the Hub cluster, which, as we introduced, will be an unique cluster that will manage all the Spoke clusters depending on it.
+From this point, we will cover the creation of manifests for the Spoke clusters. As a reminder, the Hub Cluster is an unique cluster that will manage all the Spoke clusters (1:N relationship) managed by it.
 
 ### Spoke Cluster definition
 
-In the Manifest creation phase, we still need to define the relevant CR's that will represent our spoke cluster, said that we will continue with the relevant elements for the managed (spoke) clusters.
+In the Manifest creation phase, we still need to define the relevant CR's that will represent our Spoke clusters.
 
 #### AgentClusterInstall
 
-This is one of the most important elements to define, the first thing is to decide which kind of deployment you need to do. If it's SNO versus Multi-Node is really important here so let's focus in both cases
+This is one of the most important elements to define, being the kind of deployment the first one to decide: SNO or Multi-Node.
 
 #### SNO Cluster Definition
 
@@ -248,7 +251,7 @@ For Single-Node OpenShift we need to specify the next values:
 
 **NOTE**: We **DON'T** need the API and Ingress VIP for this kind of cluster, Assisted Service will figure it out using the `spec.networking.machineNetwork.cidr` element in the CR.
 
-This is a sample as how it should look like on a IPv6 environment
+This is an example of how it should look like on an IPv6 environment:
 
 ```yaml
 apiVersion: extensions.hive.openshift.io/v1beta1
@@ -286,7 +289,7 @@ For Multi-Node OpenShift we need to specify the next values:
 
 **NOTE**: We **DON'T** need the `spec.networking.machineNetwork.cidr` for this kind of cluster, Assisted Service will figure it out using the `spec.apiVIP` and `spec.ingressVIP` elements in the CR.
 
-This is a sample as how it should look like on an IPv6 environment
+This is an example of how it should look like on an IPv6 environment:
 
 ```yaml
 apiVersion: extensions.hive.openshift.io/v1beta1
@@ -401,13 +404,13 @@ When we create this CR, we're instructing Assisted Service to create the final I
 The most important fields on this CR are the next:
 
 - `spec.clusterRef.name` and `spec.clusterRef.namespace`: This will reference the Name and the Namespace of our ClusterDeployment CR and where it is located, so be sure that you are pointing to the right ones.
-- `spec.agentLabelSelector.matchLabels`: Should be the same as you created before in the other CR's.
+- `spec.agentLabelSelector.matchLabels`: It should be the same created previous CR's.
 - `spec.pullSecretRef.name`: Should point to the right PullSecret created in the previous stage.
-- `spec.sshAuthorizedKey`: Yes, again, this is in case something goes wrong when the Host is booting with the Discovery ISO and cannot pull the image, or maybe fails in another thing... this will allow us to jump into the node and troubleshoot what it's happening.
-- `spec.ignitionConfigOverride`: Optional, This is important only if you wanna modify something that you want to include it into the Discovery ISO ignition.
-- `spec.nmStateConfigLabelSelector`: Optional, This will make the relationship between the NMState manifest you had created on the previous step and the InfraEnv that will trigger the ISO creation on the Assisted Service pod.
+- `spec.sshAuthorizedKey`: This is required in case of troubleshooting as it will allow us to login into the node and diagnose why it's not pulling the image or other errors.
+- `spec.ignitionConfigOverride`: Optional, This is used if it's needed to include modifications in the Discovery ISO ignition.
+- `spec.nmStateConfigLabelSelector`: Optional, This will make the relationship between the `NMState` manifest you had created on the previous step and the InfraEnv that will trigger the ISO creation on the Assisted Service pod.
 
-This is a sample of how it should look like:
+This is an example of how it should look like:
 
 ```yaml
 apiVersion: agent-install.openshift.io/v1beta1
@@ -433,7 +436,9 @@ spec:
 
 ### Spoke cluster deployment
 
-To achieve this part we need to ensure (again) that the Hub cluster it's based on IPI and has the metal3 pods, to validate, just execute the following command, if the output it's empty, this process will follow the manual way of work if not, the process will follow is the real ZTP.
+To achieve this part we need to ensure (again) that the Hub cluster it's based on IPI and has the Metal³ pods.
+
+To validate just execute the following command, if the output it's empty, this process will follow the manual approach, if not, the process to follow will be the real ZTP.
 
 ```sh
 oc get pod -A | grep metal3

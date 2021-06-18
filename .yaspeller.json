@@ -58,6 +58,7 @@
     "facto",
     "datacenters",
     "AssistedServiceConfig",
-    "hostname"
+    "hostname",
+    "Metal³"
   ]
 }
