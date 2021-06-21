@@ -50,6 +50,8 @@ Telco 5G also came with some acronyms and terminology:
 - SNO: Single Node OpenShift
 - UPI: User-Provisioned Infrastructure
 - ZTP: Zero Touch Provisioning
+- Hub Cluster: The cluster that will get ACM installed for managing satellite clusters.
+- Spoke Cluster: The cluster being managed by the Hub Cluster
 
 Let's learn about ZTP in the next section.
 
@@ -109,7 +111,11 @@ spec:
   targetNamespace: hive
 ```
 
-**NOTE**: If this is not the same content as you have already in your `HiveConfig` CR, please ensure that you apply this manifests, if not another CRD called `ClusterDeployment` will fail in future steps.
+**NOTE**: If this is not the same content as you have already in your `HiveConfig` CR, please ensure that you apply this manifests, if not another CRD called `ClusterDeployment` will fail in future steps. It is possible to use a `patch` command:
+
+```sh
+oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","logLevel":"debug","featureGates":{"custom":{"enabled":["AlphaAgentInstallStrategy"]},"featureSet":"Custom"}}}'
+```
 
 ## Manifest creation
 
