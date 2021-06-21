@@ -232,7 +232,7 @@ metadata:
   name: assisted-deployment-pull-secret
   namespace: open-cluster-management
 stringData:
-  .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
+  .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"MYAUTH=="},"registry.svc.ci.openshift.org":{"auth":"MYAUTHSTRING"},"quay.io":{"auth":"ANOTHERAUHTSTRING==","lab-installer.lab-net:5000":{"auth":"ANOTHERAUTH=","email":"jhendrix@karmalabs.com"}}}'
 ```
 
 From this point, we will cover the creation of manifests for the Spoke clusters. As a reminder, the Hub Cluster is an unique cluster that will manage all the Spoke clusters (1:N relationship) managed by it.
