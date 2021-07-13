@@ -410,7 +410,6 @@ When we create this CR, we're instructing Assisted Service to create the final I
 The most important fields on this CR are the next:
 
 - `spec.clusterRef.name` and `spec.clusterRef.namespace`: This will reference the Name and the Namespace of our ClusterDeployment CR and where it is located, so be sure that you are pointing to the right ones.
-- `spec.agentLabelSelector.matchLabels`: It should be the same created previous CR's.
 - `spec.pullSecretRef.name`: Should point to the right PullSecret created in the previous stage.
 - `spec.sshAuthorizedKey`: This is required in case of troubleshooting as it will allow us to login into the node and diagnose why it's not pulling the image or other errors.
 - `spec.ignitionConfigOverride`: Optional, This is used if it's needed to include modifications in the Discovery ISO ignition.
@@ -429,9 +428,6 @@ spec:
     name: lab-cluster
     namespace: open-cluster-management
   sshAuthorizedKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"
-  agentLabelSelector:
-    matchLabels:
-      bla: "aaa"
   pullSecretRef:
     name: assisted-deployment-pull-secret
   ignitionConfigOverride: '{"ignition": {"version": "3.1.0"}, "storage": {"files": [{"path": "/etc/someconfig", "contents": {"source": "data:text/plain;base64,aGVscGltdHJhcHBlZGluYXN3YWdnZXJzcGVj"}}]}}'
