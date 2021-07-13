@@ -367,7 +367,7 @@ spec:
 
 #### NMState Config
 
-This is an optional configuration that you want to add when the Network configuration needs some adjustments like work with Bonding or use a concrete VLAN or just declaring a Static IP. The NMState it's a generic/standard configuration that could be used in a separate way of Assisted Installer/ACM and the documentation can be found here and here are some examples. One NMState profile will map in a relation of 1-1 to an InfraEnv (we will cover this one later) and this profile should cover all nodes involved on the cluster.
+This is an optional configuration that you want to add when the Network configuration needs some adjustments like work with Bonding or use a concrete VLAN or just declaring a Static IP. The NMState it's a generic/standard configuration that could be used in a separate way of Assisted Installer/ACM and the [documentation can be found here](https://github.com/nmstate/nmstate) and [here are some examples](https://nmstate.io/examples.html). One NMState profile will map in a relation of 1-1 to an InfraEnv (we will cover this one later) and this profile should cover all nodes involved on the cluster.
 
 This is a sample as to how should it look like on an IPv6 environment
 
