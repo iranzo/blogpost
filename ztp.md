@@ -40,18 +40,18 @@ For the 5G and Edge scenarios, the reality is the opposite: probably slow or eve
 
 Telco 5G also came with some acronyms and terminology:
 
-- ACM: Advanced Cluster Management
+- Hub Cluster: The cluster that will get RHACM installed for managing satellite clusters.
 - IPI: Installer-Provisioned Infrastructure
 - NFV: Network Functions Virtualization
 - PTP: Precision Time Protocol
 - RAN: Radio Access Networks
+- RHACM: Red Hat Advanced Cluster Management
 - RWN: Remote Worker Nodes
 - SDN: Software-Defined Networking
 - SNO: Single Node OpenShift
+- Spoke Cluster: The cluster being managed by the Hub Cluster
 - UPI: User-Provisioned Infrastructure
 - ZTP: Zero Touch Provisioning
-- Hub Cluster: The cluster that will get ACM installed for managing satellite clusters.
-- Spoke Cluster: The cluster being managed by the Hub Cluster
 
 Let's learn about ZTP in the next section.
 
@@ -77,15 +77,15 @@ First, we will need to deploy the Red Hat Advance Cluster Manager Operator versi
 
 ![Operator Hub visualization](operatorhub.png)
 
-Once we click on ACM, this window will open with the details:
+Once we click on RHACM, this window will open with the details:
 
-![ACM Details](details.png)
+![RHACM Details](details.png)
 
 There, we select the channel `release-2.3`:
 
-![ACM install screen](install.png)
+![RHACM install screen](install.png)
 
-Once the Operator is installed, the prerequisites for deploying ACM will be already fulfilled, so we're ready to configure it.
+Once the Operator is installed, the prerequisites for deploying RHACM will be already fulfilled, so we're ready to configure it.
 
 Let's double-check by issuing some commands (ensure `KUBECONFIG` environment is loaded):
 
@@ -367,7 +367,7 @@ spec:
 
 #### NMState Config
 
-This is an optional configuration that you want to add when the Network configuration needs some adjustments like work with Bonding or use a concrete VLAN or just declaring a Static IP. The NMState it's a generic/standard configuration that could be used in a separate way of Assisted Installer/ACM and the [documentation can be found here](https://github.com/nmstate/nmstate) and [here are some examples](https://nmstate.io/examples.html). One NMState profile will map in a relation of 1-1 to an InfraEnv (we will cover this one later) and this profile should cover all nodes involved on the cluster.
+This is an optional configuration that you want to add when the Network configuration needs some adjustments like work with Bonding or use a concrete VLAN or just declaring a Static IP. The NMState it's a generic/standard configuration that could be used in a separate way of Assisted Installer/RHACM and the [documentation can be found here](https://github.com/nmstate/nmstate) and [here are some examples](https://nmstate.io/examples.html). One NMState profile will map in a relation of 1-1 to an InfraEnv (we will cover this one later) and this profile should cover all nodes involved on the cluster.
 
 This is a sample as to how should it look like on an IPv6 environment
 
@@ -524,4 +524,4 @@ With this, the flow should finish completely, in case it doesn't, there might be
 
 ## Wrap up
 
-We hope that with this article we were able to achieve showcasing how Zero Touch Provisioning can be used for deploying OpenShift Clusters that fit the Telco 5G use case and how Red Hat Advanced Cluster can be leveraged
+We hope that with this article we were able to achieve showcasing how Zero Touch Provisioning can be used for deploying OpenShift Clusters that fit the Telco 5G use case and how Red Hat Advanced Cluster Management can be leveraged
